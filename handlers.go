@@ -18,7 +18,12 @@ func GameIndex(w http.ResponseWriter, r *http.Request) {
 		Game{Name: "Love Letter", Players: 4, Id: 2},
 	}
 
-	json.NewEncoder(w).Encode(games)
+	// json.NewEncoder(w).Encode(games)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(games); err != nil {
+		panic(err)
+	}
 }
 
 func ShowGame(w http.ResponseWriter, r *http.Request) {
