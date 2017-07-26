@@ -36,4 +36,28 @@ var routes = Routes{
 		"/games",
 		CreateGame,
 	},
+	Route{
+		"PlayerIndex",
+		"GET",
+		"/players",
+		PlayerIndex,
+	},
+	Route{
+		"ShowPlayer",
+		"GET",
+		"/players/{playerId}",
+		ShowPlayer,
+	},
+	Route{
+		"PlayerCreate",
+		"POST",
+		"/players",
+		CreatePlayer,
+	},
+	// Route{
+	// 	"GameDelete",
+	// 	"DELETE",
+	// 	"/games/{gameId}",
+	// 	DeleteGame
+	// }
 }
