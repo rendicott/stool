@@ -1,7 +1,10 @@
 // mock database (not thread safe!)
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 var currentId int
 
@@ -20,9 +23,10 @@ func RepoCreateGame(game Game) Game {
 	return game
 }
 
-func RepoFindGame(id int) Game {
+// make it expect a string here!!
+func RepoFindGame(id string) Game {
 	for _, game := range games {
-		if game.Id == id {
+		if strconv.Itoa(game.Id) == id {
 			return game
 		}
 	}
@@ -30,9 +34,9 @@ func RepoFindGame(id int) Game {
 	return Game{}	
 }
 
-func RepoDeleteGame(id int) error {
+func RepoDeleteGame(id string) error {
 	for i, game := range games {
-		if game.Id == id {
+		if strconv.Itoa(game.Id) == id {
 			games = append(games[:i], games[i+1:]...)
 			return nil
 		}

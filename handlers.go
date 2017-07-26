@@ -23,5 +23,8 @@ func GameIndex(w http.ResponseWriter, r *http.Request) {
 func ShowGame(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	gameId := vars["gameId"]
-	fmt.Fprintln(w, "Game:", gameId)
+	// fmt.Fprintln(w, "Game:", gameId)
+	if err := json.NewEncoder(w).Encode(RepoFindGame(gameId)); err != nil {
+		panic(err)
+	}
 }
