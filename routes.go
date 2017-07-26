@@ -30,4 +30,10 @@ var routes = Routes{
 		"/games/{gameId}",
 		ShowGame,
 	},
+	Route{
+		"GameCreate",
+		"POST",
+		"/games",
+		CreateGame,
+	},
 }
