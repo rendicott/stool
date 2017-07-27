@@ -56,10 +56,14 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func DeleteGame(w http.ResponseWriter, r *http.Request) {
-// 	vars := mux.Vars(r)
-// 	gameId := vars["gameId"]
-// }
+func DeleteGame(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	gameId := vars["gameId"]
+	t := RepoDeleteGame(gameId)
+	if err := json.NewEncoder(w).Encode(t); err != nil {
+		panic(err)
+	}
+}
 
 func PlayerIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -98,6 +102,15 @@ func CreatePlayer(w http.ResponseWriter, r *http.Request) {
 	t := RepoCreatePlayer(player)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
+	if err := json.NewEncoder(w).Encode(t); err != nil {
+		panic(err)
+	}
+}
+
+func DeletePlayer(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	playerId := vars["playerId"]
+	t := RepoDeletePlayer(playerId)
 	if err := json.NewEncoder(w).Encode(t); err != nil {
 		panic(err)
 	}

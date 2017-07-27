@@ -54,10 +54,16 @@ var routes = Routes{
 		"/players",
 		CreatePlayer,
 	},
-	// Route{
-	// 	"GameDelete",
-	// 	"DELETE",
-	// 	"/games/{gameId}",
-	// 	DeleteGame
-	// }
+	Route{
+		"GameDelete",
+		"DELETE",
+		"/games/{gameId}",
+		DeleteGame,
+	},
+	Route{
+		"PlayerDelete",
+		"DELETE",
+		"/players/{playerId}",
+		DeletePlayer,
+	},
 }
