@@ -66,4 +66,10 @@ var routes = Routes{
 		"/players/{playerId}",
 		DeletePlayer,
 	},
+	Route{
+		"StatIndex",
+		"GET",
+		"/stats",
+		StatIndex,
+	},
 }

@@ -73,6 +73,14 @@ func PlayerIndex(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func StatIndex(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(stats); err != nil {
+		panic(err)
+	}
+}
+
 func ShowPlayer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	playerId := vars["playerId"]
