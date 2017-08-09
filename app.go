@@ -7,6 +7,7 @@ import (
     "github.com/gorilla/mux"
     "log"
     "net/http"
+    "encoding/json"
 )
 
 type App struct {
@@ -15,8 +16,8 @@ type App struct {
 }
 
 func (a *App) Initialize(user, password, dbname string) {
-    connectionString := fmt.Sprintf("user=%s password=%s dbname=%s", user, password, dbname)
-    fmt.Printf("Connection string: %s", connectionString)
+    connectionString := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+
     var err error
     a.DB, err = sql.Open("postgres", connectionString)
     if err != nil {
@@ -28,4 +29,12 @@ func (a *App) Initialize(user, password, dbname string) {
 
 func (a *App) Run(addr string) {
     log.Fatal(http.ListenAndServe(":8080", a.Router))
+}
+
+func GameIndex(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    w.WriteHeader(http.StatusOK)
+    if err := json.NewEncoder(w).Encode(GetGames(a.DB)); err != nil {
+        panic(err)
+    }
 }

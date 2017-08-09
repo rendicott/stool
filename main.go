@@ -6,8 +6,10 @@ package main
 
 import "os"
 
+var a App
+
 func main() {
-    a := App{}
+    a = App{}
     a.Initialize(
         os.Getenv("GAPI_DB_USERNAME"),
         os.Getenv("GAPI_DB_PASSWORD"),
@@ -15,4 +17,8 @@ func main() {
     )
 
     a.Run(":8080")
+}
+
+func GiveMeCurrentApp() (a App) {
+    return a
 }

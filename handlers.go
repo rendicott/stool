@@ -14,13 +14,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "welcome to the gAPI")
 }
 
-func GameIndex(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(games); err != nil {
-		panic(err)
-	}
-}
+// func GameIndex(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+// 	w.WriteHeader(http.StatusOK)
+// 	if err := json.NewEncoder(w).Encode(GetGames(GiveMeCurrentApp().DB)); err != nil {
+// 		panic(err)
+// 	}
+// }
 
 func ShowGame(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
