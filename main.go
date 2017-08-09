@@ -4,14 +4,15 @@
 
 package main
 
-import (
-	"log"
-	"net/http"
-)
+import "os"
 
 func main() {
+    a := App{}
+    a.Initialize(
+        os.Getenv("GAPI_DB_USERNAME"),
+        os.Getenv("GAPI_DB_PASSWORD"),
+        os.Getenv("GAPI_DB_NAME"),
+    )
 
-	router := NewRouter()
-
-	log.Fatal(http.ListenAndServe(":8080", router))
+    a.Run(":8080")
 }
