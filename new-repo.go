@@ -51,5 +51,43 @@ func (g *Game) CreateGame(db *sql.DB) error {
     return nil
 }
 
+func GetPlayers(db *sql.DB) []Player {
+    rows, err := db.Query("SELECT * FROM players")
+
+    if err != nil {
+        panic(err)
+        return nil
+    }
+
+    // defer statement call executed after whole getGames function returns
+    defer rows.Close()
+
+    players := []Player{}
+
+    for rows.Next() {
+        var p Player
+        if err := rows.Scan(&p.Id, &p.Name); err != nil { //http://piotrzurek.net/2013/09/20/pointers-in-go.html
+            panic(err)
+            return nil
+        }
+        players = append(players, p)
+    }
+
+    return players
+}
+
+func (p *Player) GetPlayer(db *sql.DB) error {
+    return db.QueryRow("SELECT * FROM players WHERE id=$1", p.Id).Scan(&p.Id, &p.Name)
+}
+
+func (p *Player) CreatePlayer(db *sql.DB) error {
+    // fmt.Printf("getting here in createGame\n")
+    err := db.QueryRow("INSERT INTO players VALUES(DEFAULT, $1) RETURNING id", p.Name).Scan(&p.Id)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
 
 

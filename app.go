@@ -83,3 +83,53 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
         panic(errrrrrr)
     }
 }
+
+func PlayerIndex(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    w.WriteHeader(http.StatusOK)
+    if err := json.NewEncoder(w).Encode(GetPlayers(a.DB)); err != nil {
+        panic(err)
+    }
+}
+
+func ShowPlayer(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    playerId, err := strconv.Atoi(vars["playerId"])
+    if err != nil {
+        panic(err)
+    }
+
+    p := Player{Id: playerId}
+    if errr := p.GetPlayer(a.DB); errr != nil {
+        panic(errr)
+    }
+    if errrr := json.NewEncoder(w).Encode(p); errrr != nil {
+        panic(errrr)
+    }
+}
+
+func CreatePlayer(w http.ResponseWriter, r *http.Request) {
+    var p Player
+    body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+    if err != nil {
+        panic(err)
+    }
+    if errr := r.Body.Close(); errr != nil {
+        panic(errr)
+    }
+    if errrr := json.Unmarshal(body, &p); errrr != nil {
+        w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+        w.WriteHeader(422) // unprocessable entity
+        if errrrr := json.NewEncoder(w).Encode(errrr); errrrr != nil {
+            panic(errrrr)
+        }
+    }
+    if errrrrr := p.CreatePlayer(a.DB); errrrrr != nil {
+        panic(errrrrr)
+    }
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    w.WriteHeader(http.StatusCreated)
+    if errrrrrr := json.NewEncoder(w).Encode(p); errrrrrr != nil {
+        panic(errrrrrr)
+    }
+}
