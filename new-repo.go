@@ -42,5 +42,14 @@ func (g *Game) GetGame(db *sql.DB) error {
     return db.QueryRow("SELECT * FROM games WHERE id=$1", g.Id).Scan(&g.Id, &g.Name)
 }
 
+func (g *Game) CreateGame(db *sql.DB) error {
+    // fmt.Printf("getting here in createGame\n")
+    err := db.QueryRow("INSERT INTO games VALUES(DEFAULT, $1) RETURNING id", g.Name).Scan(&g.Id)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
 
 

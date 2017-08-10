@@ -17,12 +17,12 @@ var stats Stats
 
 // Create some seed data
 func init() {
-	RepoCreateGame(Game{Name: "Splendor"})
-	RepoCreateGame(Game{Name: "Love Letter"})
-	RepoCreatePlayer(Player{Name: "Jessica"})
-	RepoCreatePlayer(Player{Name: "Grant"})
-	RepoCreateStat(Stat{RoundId: 1, Player:RepoFindPlayer("1"), Game:RepoFindGame("1"), Result: true})
-	RepoCreateStat(Stat{RoundId: 1, Player:RepoFindPlayer("2"), Game:RepoFindGame("1"), Result: false})
+	// RepoCreateGame(Game{Name: "Splendor"})
+	// RepoCreateGame(Game{Name: "Love Letter"})
+	// RepoCreatePlayer(Player{Name: "Jessica"})
+	// RepoCreatePlayer(Player{Name: "Grant"})
+	// RepoCreateStat(Stat{RoundId: 1, Player:RepoFindPlayer("1"), Game:RepoFindGame("1"), Result: true})
+	// RepoCreateStat(Stat{RoundId: 1, Player:RepoFindPlayer("2"), Game:RepoFindGame("1"), Result: false})
 }
 
 func RepoCreateStat(stat Stat) Stat {
@@ -32,13 +32,6 @@ func RepoCreateStat(stat Stat) Stat {
 	// fmt.Printf(stat.Date.Format("20060101"))
 	stats = append(stats, stat)
 	return stat
-}
-
-func RepoCreateGame(game Game) Game {
-	currentGameId += 1
-	game.Id = currentGameId
-	games = append(games, game)
-	return game
 }
 
 func RepoCreatePlayer(player Player) Player {
