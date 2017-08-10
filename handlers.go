@@ -22,14 +22,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 // 	}
 // }
 
-func ShowGame(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	gameId := vars["gameId"]
-	// fmt.Fprintln(w, "Game:", gameId)
-	if err := json.NewEncoder(w).Encode(RepoFindGame(gameId)); err != nil {
-		panic(err)
-	}
-}
+// func ShowGame(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
+// 	gameId := vars["gameId"]
+// 	// fmt.Fprintln(w, "Game:", gameId)
+// 	if err := json.NewEncoder(w).Encode(RepoFindGame(gameId)); err != nil {
+// 		panic(err)
+// 	}
+// }
 
 func CreateGame(w http.ResponseWriter, r *http.Request) {
 	var game Game

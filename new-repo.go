@@ -4,6 +4,7 @@ package main
 import (
     // "fmt"
     "database/sql"
+    // "strconv"
 )
 
 // Create some seed data
@@ -36,3 +37,10 @@ func GetGames(db *sql.DB) []Game {
 
     return games
 }
+
+func (g *Game) GetGame(db *sql.DB) error {
+    return db.QueryRow("SELECT * FROM games WHERE id=$1", g.Id).Scan(&g.Id, &g.Name)
+}
+
+
+

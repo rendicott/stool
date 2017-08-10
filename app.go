@@ -8,6 +8,7 @@ import (
     "log"
     "net/http"
     "encoding/json"
+    "strconv"
 )
 
 type App struct {
@@ -36,5 +37,21 @@ func GameIndex(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     if err := json.NewEncoder(w).Encode(GetGames(a.DB)); err != nil {
         panic(err)
+    }
+}
+
+func ShowGame(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    gameId, err := strconv.Atoi(vars["gameId"])
+    if err != nil {
+        panic(err)
+    }
+
+    g := Game{Id: gameId}
+    if errr := g.GetGame(a.DB); errr != nil {
+        panic(errr)
+    }
+    if errrr := json.NewEncoder(w).Encode(g); errrr != nil {
+        panic(errrr)
     }
 }

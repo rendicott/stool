@@ -18,7 +18,3 @@ func main() {
 
     a.Run(":8080")
 }
-
-func GiveMeCurrentApp() (a App) {
-    return a
-}
