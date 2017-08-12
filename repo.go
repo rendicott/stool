@@ -99,5 +99,30 @@ func (p *Player) DeletePlayer(db *sql.DB) error {
     return err
 }
 
+func GetOutcomes(db *sql.DB) []Outcome {
+    rows, err := db.Query("SELECT * FROM outcomes")
+
+    if err != nil {
+        panic(err)
+        return nil
+    }
+
+    // defer statement call executed after whole function returns
+    defer rows.Close()
+
+    outcomes := []Outcome{}
+
+    for rows.Next() {
+        var o Outcome
+        if err := rows.Scan(&o.Id, &o.Game.Id, &o.Player.Id, &o.Win); err != nil { //http://piotrzurek.net/2013/09/20/pointers-in-go.html
+            panic(err)
+            return nil
+        }
+        outcomes = append(outcomes, o)
+    }
+
+    return outcomes
+}
+
 
 

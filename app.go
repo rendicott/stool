@@ -101,6 +101,12 @@ var routes = Routes{
         "/players/{playerId}",
         a.DeletePlayer,
     },
+    Route{
+        Name: "OutcomeIndex",
+        Method: "GET",
+        Pattern: "/outcomes",
+        HandlerFunc: OutcomeIndex,
+    },
 }
 
 func respondWithError(w http.ResponseWriter, code int, message string) {
@@ -254,6 +260,15 @@ func (a *App) DeletePlayer(w http.ResponseWriter, r *http.Request) {
 
     p := Player{Id: playerId}
     if err := p.DeletePlayer(a.DB); err != nil {
+        respondWithError(w, http.StatusInternalServerError, err.Error())
+        return
+    }
+}
+
+func OutcomeIndex(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+    w.WriteHeader(http.StatusOK)
+    if err := json.NewEncoder(w).Encode(GetOutcomes(a.DB)); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
