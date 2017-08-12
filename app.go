@@ -123,7 +123,8 @@ func GameIndex(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
     w.WriteHeader(http.StatusOK)
     if err := json.NewEncoder(w).Encode(GetGames(a.DB)); err != nil {
-        panic(err)
+        respondWithError(w, http.StatusInternalServerError, err.Error())
+        return
     }
 }
 
@@ -131,12 +132,14 @@ func ShowGame(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     gameId, err := strconv.Atoi(vars["gameId"])
     if err != nil {
-        panic(err)
+        respondWithError(w, http.StatusBadRequest, "Invalid ID")
+        return
     }
 
     g := Game{Id: gameId}
     if errr := g.GetGame(a.DB); errr != nil {
-        panic(errr)
+        respondWithError(w, http.StatusInternalServerError, errr.Error())
+        return
     }
     if errrr := json.NewEncoder(w).Encode(g); errrr != nil {
         panic(errrr)
@@ -160,7 +163,8 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
         }
     }
     if errrrrr := g.CreateGame(a.DB); errrrrr != nil {
-        panic(errrrrr)
+        respondWithError(w, http.StatusInternalServerError, errrrrr.Error())
+        return
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
     w.WriteHeader(http.StatusCreated)
@@ -189,7 +193,8 @@ func PlayerIndex(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
     w.WriteHeader(http.StatusOK)
     if err := json.NewEncoder(w).Encode(GetPlayers(a.DB)); err != nil {
-        panic(err)
+        respondWithError(w, http.StatusInternalServerError, err.Error())
+        return
     }
 }
 
@@ -197,12 +202,14 @@ func ShowPlayer(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     playerId, err := strconv.Atoi(vars["playerId"])
     if err != nil {
-        panic(err)
+        respondWithError(w, http.StatusBadRequest, "Invalid ID")
+        return
     }
 
     p := Player{Id: playerId}
     if errr := p.GetPlayer(a.DB); errr != nil {
-        panic(errr)
+        respondWithError(w, http.StatusInternalServerError, errr.Error())
+        return
     }
     if errrr := json.NewEncoder(w).Encode(p); errrr != nil {
         panic(errrr)
@@ -226,12 +233,14 @@ func CreatePlayer(w http.ResponseWriter, r *http.Request) {
         }
     }
     if errrrrr := p.CreatePlayer(a.DB); errrrrr != nil {
-        panic(errrrrr)
+        respondWithError(w, http.StatusInternalServerError, errrrrr.Error())
+        return
     }
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
     w.WriteHeader(http.StatusCreated)
     if errrrrrr := json.NewEncoder(w).Encode(p); errrrrrr != nil {
-        panic(errrrrrr)
+        respondWithError(w, http.StatusInternalServerError, errrrrrr.Error())
+        return
     }
 }
 

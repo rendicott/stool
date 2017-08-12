@@ -2,7 +2,7 @@
 package main
 
 import (
-    "fmt"
+    // "fmt"
     "database/sql"
     // "strconv"
 )
@@ -51,7 +51,6 @@ func (g *Game) CreateGame(db *sql.DB) error {
 }
 
 func (g *Game) DeleteGame(db *sql.DB) error {
-    fmt.Printf("Id is $1", g.Id)
     _, err := db.Exec("DELETE FROM games WHERE id=$1", g.Id)
     return err
 }
@@ -95,7 +94,6 @@ func (p *Player) CreatePlayer(db *sql.DB) error {
 }
 
 func (p *Player) DeletePlayer(db *sql.DB) error {
-    fmt.Printf("Id is $1", p.Id)
     _, err := db.Exec("DELETE FROM players WHERE id=$1", p.Id)
 
     return err
