@@ -2,48 +2,104 @@
 package main
 
 import (
-	"fmt"
-	"strconv"
-	"time"
+    "fmt"
+    "database/sql"
+    // "strconv"
 )
-
-var currentGameId int
-var currentPlayerId int
-var currentStatId int
-
-var games Games
-var players Players
-var stats Stats
 
 // Create some seed data
 func init() {
+
 }
 
-func RepoCreateStat(stat Stat) Stat {
-	currentStatId += 1
-	stat.Id = currentStatId
-	stat.Date = time.Now()
-	// fmt.Printf(stat.Date.Format("20060101"))
-	stats = append(stats, stat)
-	return stat
+func GetGames(db *sql.DB) []Game {
+    rows, err := db.Query("SELECT * FROM games")
+
+    if err != nil {
+        panic(err)
+        return nil
+    }
+
+    // defer statement call executed after whole getGames function returns
+    defer rows.Close()
+
+    games := []Game{}
+
+    for rows.Next() {
+        var g Game
+        if err := rows.Scan(&g.Id, &g.Name); err != nil { //http://piotrzurek.net/2013/09/20/pointers-in-go.html
+            panic(err)
+            return nil
+        }
+        games = append(games, g)
+    }
+
+    return games
 }
 
-func RepoDeleteGame(id string) error {
-	for i, game := range games {
-		if strconv.Itoa(game.Id) == id {
-			games = append(games[:i], games[i+1:]...)
-			return nil
-		}
-	}
-	return fmt.Errorf("Could not delete: can't find Game with id of %d", id)
+func (g *Game) GetGame(db *sql.DB) error {
+    return db.QueryRow("SELECT * FROM games WHERE id=$1", g.Id).Scan(&g.Id, &g.Name)
 }
 
-func RepoDeletePlayer(id string) error {
-	for i, player := range players {
-		if strconv.Itoa(player.Id) == id {
-			players = append(players[:i], players[i+1:]...)
-			return nil
-		}
-	}
-	return fmt.Errorf("Could not delete: can't find Player with id of %d", id)
+func (g *Game) CreateGame(db *sql.DB) error {
+    // fmt.Printf("getting here in createGame\n")
+    err := db.QueryRow("INSERT INTO games VALUES(DEFAULT, $1) RETURNING id", g.Name).Scan(&g.Id)
+    if err != nil {
+        return err
+    }
+    return nil
 }
+
+func (g *Game) DeleteGame(db *sql.DB) error {
+    fmt.Printf("Id is $1", g.Id)
+    _, err := db.Exec("DELETE FROM games WHERE id=$1", g.Id)
+    return err
+}
+
+func GetPlayers(db *sql.DB) []Player {
+    rows, err := db.Query("SELECT * FROM players")
+
+    if err != nil {
+        panic(err)
+        return nil
+    }
+
+    // defer statement call executed after whole getGames function returns
+    defer rows.Close()
+
+    players := []Player{}
+
+    for rows.Next() {
+        var p Player
+        if err := rows.Scan(&p.Id, &p.Name); err != nil { //http://piotrzurek.net/2013/09/20/pointers-in-go.html
+            panic(err)
+            return nil
+        }
+        players = append(players, p)
+    }
+
+    return players
+}
+
+func (p *Player) GetPlayer(db *sql.DB) error {
+    return db.QueryRow("SELECT * FROM players WHERE id=$1", p.Id).Scan(&p.Id, &p.Name)
+}
+
+func (p *Player) CreatePlayer(db *sql.DB) error {
+    // fmt.Printf("getting here in createGame\n")
+    err := db.QueryRow("INSERT INTO players VALUES(DEFAULT, $1) RETURNING id", p.Name).Scan(&p.Id)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+func (p *Player) DeletePlayer(db *sql.DB) error {
+    fmt.Printf("Id is $1", p.Id)
+    _, err := db.Exec("DELETE FROM players WHERE id=$1", p.Id)
+
+    return err
+}
+
+
+
