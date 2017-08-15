@@ -118,7 +118,15 @@ func GetOutcomes(db *sql.DB) []Outcome {
             panic(err)
             return nil
         }
-        outcomes = append(outcomes, o)
+        p := Player{Id: o.Player.Id}
+        g := Game{Id: o.Game.Id}
+
+        p.GetPlayer(db)
+        g.GetGame(db)
+
+        o_updated := Outcome{Id: o.Id, Game: g, Player: p, Win: o.Win}
+
+        outcomes = append(outcomes, o_updated)
     }
 
     return outcomes
