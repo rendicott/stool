@@ -73,6 +73,12 @@ var routes = Routes{
 		"/players/{playerId}",
 		player.DeletePlayer,
 	},
+	Route{
+		Name:        "OutcomeIndex",
+		Method:      "GET",
+		Pattern:     "/outcomes",
+		HandlerFunc: OutcomeIndex,
+	},
 }
 
 func NewRouter() *mux.Router {
