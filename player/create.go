@@ -6,14 +6,12 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/gapi/db"
 	"github.com/gapi/util"
 )
 
 func CreatePlayer(w http.ResponseWriter, r *http.Request) {
 	var p Player
 
-	data := db.GetDb()
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 	if err != nil {
 		panic(err)
@@ -28,7 +26,7 @@ func CreatePlayer(w http.ResponseWriter, r *http.Request) {
 			panic(errrrr)
 		}
 	}
-	if errrrrr := p.CreatePlayer(data); errrrrr != nil {
+	if errrrrr := p.CreatePlayer(); errrrrr != nil {
 		util.RespondWithError(w, http.StatusInternalServerError, errrrrr.Error())
 		return
 	}
@@ -38,11 +36,4 @@ func CreatePlayer(w http.ResponseWriter, r *http.Request) {
 		util.RespondWithError(w, http.StatusInternalServerError, errrrrrr.Error())
 		return
 	}
-}
-
-// todo: figure out how to handle errors here
-func (p *Player) CreatePlayer(db *db.Database) error {
-	// fmt.Printf("getting here in createGame\n")
-	db.DB.Create(p)
-	return nil
 }

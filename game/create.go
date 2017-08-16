@@ -6,11 +6,10 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/gapi/db"
+	"github.com/gapi/util"
 )
 
 func CreateGame(w http.ResponseWriter, r *http.Request) {
-	data := db.GetDb()
 	var g Game
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 	if err != nil {
@@ -26,20 +25,14 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 			panic(errrrr)
 		}
 	}
-	g.CreateGame(data)
-	/*if errrrrr := g.CreateGame(data); errrrrr != nil {
+	if errrrrr := g.CreateGame(); errrrrr != nil {
 		util.RespondWithError(w, http.StatusInternalServerError, errrrrr.Error())
 		return
-	}*/
+	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
 	if errrrrrr := json.NewEncoder(w).Encode(g); errrrrrr != nil {
 		//respond with error here
 		panic(errrrrrr)
 	}
-}
-
-func (g *Game) CreateGame(db *db.Database) {
-	// fmt.Printf("getting here in createGame\n")
-	db.DB.Create(&g)
 }

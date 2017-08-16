@@ -8,10 +8,19 @@ import (
 	"log"
 	"net/http"
 
-	_ "github.com/lib/pq"
+	"github.com/gapi/db"
+	"github.com/gapi/game"
+	"github.com/gapi/player"
 )
 
 func main() {
+
+	db, err := db.NewDB()
+	if err != nil {
+		fmt.Println(err)
+	}
+	db.AutoMigrate(player.Player{})
+	db.AutoMigrate(game.Game{})
 	log.Fatal(http.ListenAndServe(":8080", NewRouter()))
 }
 

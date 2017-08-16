@@ -1,25 +1,14 @@
 package db
 
 import (
-	"sync"
-
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-type Database struct {
-	DB *gorm.DB
-}
-
-var instance *Database
-var once sync.Once
-
-func GetDb() *Database {
-	once.Do(func() {
-		db, err := gorm.Open("sqlite3", "test.db")
-		if err != nil {
-			panic("failed to connect database")
-		}
-		instance.DB = db
-	})
-	return instance
+func NewDB() (*gorm.DB, error) {
+	db, err := gorm.Open("sqlite3", "test.db")
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
 }
