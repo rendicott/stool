@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gapi/game"
+	"github.com/gapi/outcome"
 	"github.com/gapi/player"
 	"github.com/gapi/util"
 	"github.com/gorilla/mux"
@@ -77,7 +78,7 @@ var routes = Routes{
 		Name:        "OutcomeIndex",
 		Method:      "GET",
 		Pattern:     "/outcomes",
-		HandlerFunc: OutcomeIndex,
+		HandlerFunc: outcome.OutcomeIndex,
 	},
 }
 

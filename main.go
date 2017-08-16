@@ -10,6 +10,7 @@ import (
 
 	"github.com/gapi/db"
 	"github.com/gapi/game"
+	"github.com/gapi/outcome"
 	"github.com/gapi/player"
 )
 
@@ -21,6 +22,7 @@ func main() {
 	}
 	db.AutoMigrate(player.Player{})
 	db.AutoMigrate(game.Game{})
+	db.AutoMigrate(outcome.Outcome{})
 	log.Fatal(http.ListenAndServe(":8080", NewRouter()))
 }
 
