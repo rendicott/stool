@@ -92,6 +92,12 @@ var routes = Routes{
 		Pattern: "/outcomes",
 		HandlerFunc: outcome.CreateOutcome,
 	},
+	Route{
+		Name: "OutcomeDelete",
+		Method: "DELETE",
+		Pattern: "/outcomes/{outcomeId}",
+		HandlerFunc: outcome.DeleteOutcome,
+	}
 }
 
 func NewRouter() *mux.Router {
