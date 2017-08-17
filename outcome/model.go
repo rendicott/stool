@@ -2,16 +2,14 @@ package outcome
 
 import (
 	"github.com/gapi/db"
-	"github.com/gapi/game"
-	"github.com/gapi/player"
 )
 
 // todo: foreign keys
 type Outcome struct {
-	Id     	 int     `gorm:"primary_key;"`
-	GameId   int     `json:"gameid"`
-	PlayerId int     `json:"playerid"`
-	Win      bool    `json:"win"`
+	Id       int  `gorm:"primary_key;"`
+	GameId   int  `json:"gameid"`
+	PlayerId int  `json:"playerid"`
+	Win      bool `json:"win"`
 }
 
 func GetOutcomes() ([]Outcome, error) {
@@ -46,7 +44,7 @@ func (o *Outcome) GetOutcome() (Outcome, error) {
 	var outcome Outcome
 	data, err := db.NewDB()
 	if err != nil {
-		return game, err
+		return outcome, err
 	}
 	data.Find(&outcome, o.Id)
 

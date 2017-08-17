@@ -81,23 +81,23 @@ var routes = Routes{
 		HandlerFunc: outcome.OutcomeIndex,
 	},
 	Route{
-		Name: "ShowOutcome",
-		Method: "GET",
-		Pattern: "/outcomes/{outcomeId}",
+		Name:        "ShowOutcome",
+		Method:      "GET",
+		Pattern:     "/outcomes/{outcomeId}",
 		HandlerFunc: outcome.ShowOutcome,
 	},
 	Route{
-		Name: "OutcomeCreate",
-		Method: "POST",
-		Pattern: "/outcomes",
+		Name:        "OutcomeCreate",
+		Method:      "POST",
+		Pattern:     "/outcomes",
 		HandlerFunc: outcome.CreateOutcome,
 	},
 	Route{
-		Name: "OutcomeDelete",
-		Method: "DELETE",
-		Pattern: "/outcomes/{outcomeId}",
+		Name:        "OutcomeDelete",
+		Method:      "DELETE",
+		Pattern:     "/outcomes/{outcomeId}",
 		HandlerFunc: outcome.DeleteOutcome,
-	}
+	},
 }
 
 func NewRouter() *mux.Router {
