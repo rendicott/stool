@@ -80,6 +80,18 @@ var routes = Routes{
 		Pattern:     "/outcomes",
 		HandlerFunc: outcome.OutcomeIndex,
 	},
+	Route{
+		Name: "ShowOutcome",
+		Method: "GET",
+		Pattern: "/outcomes/{outcomeId}",
+		HandlerFunc: outcome.ShowOutcome,
+	},
+	Route{
+		Name: "OutcomeCreate",
+		Method: "POST",
+		Pattern: "/outcomes",
+		HandlerFunc: outcome.CreateOutcome,
+	},
 }
 
 func NewRouter() *mux.Router {
