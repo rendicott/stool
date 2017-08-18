@@ -23,9 +23,8 @@ func main() {
 	db.AutoMigrate(player.Player{})
 	db.AutoMigrate(game.Game{})
 	db.AutoMigrate(outcome.Outcome{})
-	log.Fatal(http.ListenAndServe(":8080", NewRouter()))
+	r := NewRouter()
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "welcome to the gAPI")
-}
+

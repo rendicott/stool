@@ -21,12 +21,6 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
-		"Index",
-		"GET",
-		"/",
-		Index,
-	},
-	Route{
 		"GameIndex",
 		"GET",
 		"/games",
@@ -114,6 +108,8 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
+
+	router.Handle("/", http.FileServer(http.Dir("templates")))
 
 	return router
 }
