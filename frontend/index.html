@@ -13,28 +13,45 @@
     <br/><br/>
 
     <div>
-        <h3>Show me the GAMES</h3>
+        <h2>Show me the GAMES</h2>
         <ol>
             <span ng-repeat="game in allGames">
                 <li>{{game}}</li>
             </span>
         </ol>
+
+        <h4>Create a new game:</h4>
+        Name: <input type="text" ng-model="newGameName"/>
+        <input type="button" value="create" ng-click="createGame(newGameName)"/><br/><br/>
     </div>
+
     <div>
-        <h3>Players</h3>
+        <h2>Players</h2>
         <ol>
             <span ng-repeat="player in allPlayers">
                 <li>{{player}}</li>
             </span>
         </ol>
+
+        <h4>Create a new player:</h4>
+        Name: <input type="text" ng-model="newPlayerName"/>
+        <input type="button" value="create" ng-click="createPlayer(newPlayerName)"/><br/><br/>
     </div>
+
     <div>
-        <h3>Outcomes</h3>
+        <h2>Outcomes</h2>
         <ol>
             <span ng-repeat="outcome in allOutcomes">
                 <li>{{outcome}}</li>
             </span>
         </ol>
+
+        <h4>Create a new outcome:</h4>
+        Game ID: <input type="number" ng-model="newOutcomeGameId"/><br/>
+        Player ID: <input type="number" ng-model="newOutcomePlayerId"/><br/>
+        <input type="radio" name="Win" ng-model="newOutcomeWin" value="true">Win
+        <input type="radio" name="Loss" ng-model="newOutcomeWin" value="false">Loss <br/>
+        <input type="button" value="create" ng-click="createOutcome(newOutcomeGameId, newOutcomePlayerId, newOutcomeWin)"/><br/><br/>
     </div>
 </body>
 </html>
