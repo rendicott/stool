@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/urfave/negroni"
 	"github.com/gapi/db"
 	"github.com/gapi/game"
 	"github.com/gapi/outcome"
@@ -27,11 +26,6 @@ func main() {
 	db.AutoMigrate(outcome.Outcome{})
 	r := NewRouter()
 
-	// try this!! https://stackoverflow.com/questions/39899257/angular-2-frontend-golang-backend
-	n := negroni.Classic()
-	//n.Use(gzip.Gzip(gzip.DefaultCompression))
-	n.UseHandler(r)
-
 	abspath, err := filepath.Abs("./frontend")
 
 	if err != nil {
@@ -43,7 +37,7 @@ func main() {
 	r.PathPrefix("/").Handler(http.FileServer(fs))
 
 
-	log.Fatal(http.ListenAndServe(":8080", n))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
 
