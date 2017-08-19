@@ -16,7 +16,7 @@
         <h2>Show me the GAMES</h2>
         <ol>
             <span ng-repeat="game in allGames">
-                <li>{{game}}</li>
+                <li>{{game}} <button ng-click="deleteGame(game.Id)">delete</button> </li>
             </span>
         </ol>
 
@@ -29,7 +29,7 @@
         <h2>Players</h2>
         <ol>
             <span ng-repeat="player in allPlayers">
-                <li>{{player}}</li>
+                <li>{{player}} <button ng-click="deletePlayer(player.Id)">delete</button> </li>
             </span>
         </ol>
 
@@ -42,7 +42,7 @@
         <h2>Outcomes</h2>
         <ol>
             <span ng-repeat="outcome in allOutcomes">
-                <li>{{outcome}}</li>
+                <li>{{outcome}} <button ng-click="deleteOutcome(outcome.Id)">delete</button> </li>
             </span>
         </ol>
 

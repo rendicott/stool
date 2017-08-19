@@ -96,7 +96,7 @@ angular.module('gapi', [])
         };
 
         $scope.createOutcome = function(gameId, playerId, win) {
-            console.log("In createGame function");
+            console.log("In createOutcome function");
 
             if (win === "true") {
                 var winBool = true;
@@ -113,6 +113,66 @@ angular.module('gapi', [])
                     },
                     function errorCallback(response) {
                         console.log("Unable to create outcome: ");
+                        console.log(response);
+                    }
+                );
+
+        };
+
+        $scope.deleteGame = function(id) {
+            console.log("In deleteGame function");
+
+            var endpoint = "/games/" + id;
+            console.log("Deleting: " + endpoint);
+            $http.delete(endpoint)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("refreshing game data");
+                        $scope.getGames();
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to delete game: ");
+                        console.log(response);
+                    }
+                );
+
+        };
+
+        $scope.deletePlayer = function(id) {
+            console.log("In deletePlayer function");
+
+            var endpoint = "/players/" + id;
+            console.log("Deleting: " + endpoint);
+            $http.delete(endpoint)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("refreshing player data");
+                        $scope.getPlayers();
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to delete player: ");
+                        console.log(response);
+                    }
+                );
+
+        };
+
+        $scope.deleteOutcome = function(id) {
+            console.log("In deleteOutcome function");
+
+            var endpoint = "/outcomes/" + id;
+            console.log("Deleting: " + endpoint);
+            $http.delete(endpoint)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("refreshing outcome data");
+                        $scope.getOutcomes();
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to delete outcome: ");
                         console.log(response);
                     }
                 );
