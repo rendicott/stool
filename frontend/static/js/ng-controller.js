@@ -1,45 +1,53 @@
 angular.module('gapi', [])
-    .controller('SampleController', function($scope, $http, $window) {
+    .controller('SampleController', function($scope, $http) {
 
 
-        $scope.angularTest = "yes"
+        $scope.angularTest = "yes";
 
+        $scope.getGames = function() {
+            console.log("In getGames function");
 
-//         $scope.login = function(loginEmail, loginPassword) {
-//             console.log("In login function in ng controller");
-//
-//             var emailAndPass = {
-//                 email: loginEmail,
-//                 password: loginPassword
-//             }
-//
-//             $http.post("/login.json", emailAndPass)
-//                 .then(
-//                     function successCallback(response) {
-//                         console.log(response.data);
-//                         console.log("Adding data to scope");
-//                         $scope.loginContainer = response.data;
-// //                        loginContainerHolder = $scope.loginContainer;
-// //                        console.log("LOGIN CONTAINER HOLDER:");
-// //                        console.log(loginContainerHolder);
-//                         if ($scope.loginContainer.errorMessage == null) {
-//                             $scope.loginSuccessful = true;
-//                             $scope.teacherWhoIsLoggedIn = $scope.loginContainer.teacher;
-//                             console.log("User who is logged in: " + $scope.teacherWhoIsLoggedIn.firstName + ", id: " + $scope.teacherWhoIsLoggedIn.id);
-//                             $scope.allCourses = $scope.loginContainer.courseArrayList;
-// //                            $scope.loggedInBoolean = true;
-// //                            setTeacher($scope.)
-//                             $window.location.href = '/classList?teacherId=' + $scope.teacherWhoIsLoggedIn.id;
-//
-//                         } else {
-//                             $scope.loginSuccessful = false;
-// //                            $scope.loggedInBoolean = true;
-//                         }
-//                     },
-//                     function errorCallback(response) {
-//                         console.log("Unable to get data...");
-//                     });
-//         };
+            $http.get("/games")
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("adding game data to scope");
+                        $scope.allGames = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get game data...");
+                    });
+        };
+
+        $scope.getPlayers = function() {
+            console.log("In getPlayers function");
+
+            $http.get("/players")
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("adding player data to scope");
+                        $scope.allPlayers = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get player data...");
+                    });
+        };
+
+        $scope.getOutcomes = function() {
+            console.log("In getOutcomes function");
+
+            $http.get("/outcomes")
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        console.log("adding outcome data to scope");
+                        $scope.allOutcomes = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get outcome data...");
+                    });
+        };
 
 
     });

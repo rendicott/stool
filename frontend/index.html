@@ -7,7 +7,36 @@
     <title>gAPI</title>
 </head>
 <body ng-controller="SampleController">
-~ welcome to the GAPI ~
-<br/> is angular working? {{angularTest}}
+    ~ welcome to the GAPI ~
+    <br/> is angular working? {{angularTest}}
+    <br/><br/>
+
+    <div>
+        <button ng-click="getGames()">Show me the GAMES</button>
+        <h3>Games</h3>
+        <ol>
+            <span ng-repeat="game in allGames">
+                <li>{{game}}</li>
+            </span>
+        </ol>
+    </div>
+    <div>
+        <button ng-click="getPlayers()">Show PLAYERS</button>
+        <h3>Players</h3>
+        <ol>
+            <span ng-repeat="player in allPlayers">
+                <li>{{player}}</li>
+            </span>
+        </ol>
+    </div>
+    <div>
+        <button ng-click="getOutcomes()">Show outcomes</button>
+        <h3>Outcomes</h3>
+        <ol>
+            <span ng-repeat="outcome in allOutcomes">
+                <li>{{outcome}}</li>
+            </span>
+        </ol>
+    </div>
 </body>
 </html>
