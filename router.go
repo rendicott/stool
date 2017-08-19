@@ -8,6 +8,8 @@ import (
 	"github.com/gapi/player"
 	"github.com/gapi/util"
 	"github.com/gorilla/mux"
+	//"path/filepath"
+	//"fmt"
 )
 
 type Route struct {
@@ -108,8 +110,6 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
-
-	router.Handle("/", http.FileServer(http.Dir("templates")))
 
 	return router
 }
