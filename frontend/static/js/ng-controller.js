@@ -4,6 +4,13 @@ angular.module('gapi', [])
 
         $scope.angularTest = "yes";
 
+        $scope.loadData = function() {
+            console.log("Loading data...")
+            $scope.getGames();
+            $scope.getPlayers();
+            $scope.getOutcomes();
+        }
+
         $scope.getGames = function() {
             console.log("In getGames function");
 

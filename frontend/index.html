@@ -7,13 +7,13 @@
     <title>gAPI</title>
 </head>
 <body ng-controller="SampleController">
+    <input type="hidden" ng-init="loadData()"/>
     ~ welcome to the GAPI ~
     <br/> is angular working? {{angularTest}}
     <br/><br/>
 
     <div>
-        <button ng-click="getGames()">Show me the GAMES</button>
-        <h3>Games</h3>
+        <h3>Show me the GAMES</h3>
         <ol>
             <span ng-repeat="game in allGames">
                 <li>{{game}}</li>
@@ -21,7 +21,6 @@
         </ol>
     </div>
     <div>
-        <button ng-click="getPlayers()">Show PLAYERS</button>
         <h3>Players</h3>
         <ol>
             <span ng-repeat="player in allPlayers">
@@ -30,7 +29,6 @@
         </ol>
     </div>
     <div>
-        <button ng-click="getOutcomes()">Show outcomes</button>
         <h3>Outcomes</h3>
         <ol>
             <span ng-repeat="outcome in allOutcomes">
