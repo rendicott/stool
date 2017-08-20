@@ -8,6 +8,8 @@ import (
 	"github.com/gapi/player"
 	"github.com/gapi/util"
 	"github.com/gorilla/mux"
+	//"path/filepath"
+	//"fmt"
 )
 
 type Route struct {
@@ -20,12 +22,6 @@ type Route struct {
 type Routes []Route
 
 var routes = Routes{
-	Route{
-		"Index",
-		"GET",
-		"/",
-		Index,
-	},
 	Route{
 		"GameIndex",
 		"GET",

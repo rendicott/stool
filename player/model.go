@@ -4,7 +4,7 @@ import "github.com/gapi/db"
 
 type Player struct {
 	Id   int `gorm:"primary_key;"`
-	Name string
+	Name string `json:"name"`
 }
 
 func (p *Player) CreatePlayer() error {

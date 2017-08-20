@@ -12,6 +12,7 @@ import (
 	"github.com/gapi/game"
 	"github.com/gapi/outcome"
 	"github.com/gapi/player"
+	"path/filepath"
 )
 
 func main() {
@@ -23,9 +24,20 @@ func main() {
 	db.AutoMigrate(player.Player{})
 	db.AutoMigrate(game.Game{})
 	db.AutoMigrate(outcome.Outcome{})
-	log.Fatal(http.ListenAndServe(":8080", NewRouter()))
+	r := NewRouter()
+
+	abspath, err := filepath.Abs("./frontend")
+
+	if err != nil {
+		fmt.Print(err)
+	}
+
+	fs := http.Dir(abspath)
+
+	r.PathPrefix("/").Handler(http.FileServer(fs))
+
+
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "welcome to the gAPI")
-}
+
