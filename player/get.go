@@ -1,44 +1,32 @@
 package player
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 
-	"github.com/gapi/util"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func PlayerIndex(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func PlayerIndex(c *gin.Context) {
 	players, err := GetPlayers()
 	if err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	if err = json.NewEncoder(w).Encode(players); err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
+		c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": players})
 	}
 }
 
-func ShowPlayer(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	playerId, err := strconv.Atoi(vars["playerId"])
+func ShowPlayer(c *gin.Context) {
+	playerId, err := strconv.Atoi(c.Param("Id"))
 	if err != nil {
-		util.RespondWithError(w, http.StatusBadRequest, "Invalid ID")
-		return
-	}
-
-	p := Player{Id: playerId}
-	// todo : pass this by reference
-	p, err = p.GetPlayer()
-	if err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	if err := json.NewEncoder(w).Encode(p); err != nil {
-		panic(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+	} else {
+		p := Player{Id: playerId}
+		p, err := p.GetPlayer()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"Id": p.Id, "Name": p.Name})
+		}
 	}
 }

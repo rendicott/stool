@@ -3,23 +3,24 @@ package outcome
 import (
 	"net/http"
 	"strconv"
-	"github.com/gapi/util"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func DeleteOutcome(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	outcomeId, err := strconv.Atoi(vars["outcomeId"])
+func DeleteOutcome(c *gin.Context) {
+	outcomeId, err := strconv.Atoi(c.Param("Id"))
 	if err != nil {
-		util.RespondWithError(w, http.StatusBadRequest, "Invalid ID")
-		return
-	}
-
-	o := Outcome{Id: outcomeId}
-
-	if err := o.DeleteOutcome(); err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+	} else {
+		o := Outcome{Id: outcomeId}
+		err = o.DeleteOutcome()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"Id": o.Id,
+				"GameId":   o.GameId,
+				"PlayerId": o.PlayerId,
+				"Win":      o.Win})
+		}
 	}
 }
