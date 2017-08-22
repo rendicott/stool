@@ -1,46 +1,35 @@
 package outcome
 
 import (
-	"encoding/json"
 	"net/http"
-
-	"github.com/gapi/util"
 	"strconv"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func OutcomeIndex(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-
+func OutcomeIndex(c *gin.Context) {
 	outcomes, err := GetOutcomes()
 	if err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	if err := json.NewEncoder(w).Encode(outcomes); err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
+		c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": outcomes})
 	}
 }
 
-func ShowOutcome(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	outcomeId, err := strconv.Atoi(vars["outcomeId"])
+func ShowOutcome(c *gin.Context) {
+	outcomeId, err := strconv.Atoi(c.Param("Id"))
 	if err != nil {
-		util.RespondWithError(w, http.StatusBadRequest, "Invalid ID")
-		return
-	}
-
-	o := Outcome{Id: outcomeId}
-	outcome, err := o.GetOutcome()
-	if err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	if err := json.NewEncoder(w).Encode(outcome); err != nil {
-		panic(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+	} else {
+		o := Outcome{Id: outcomeId}
+		o, err = o.GetOutcome()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"Id": o.Id,
+				"GameId":   o.GameId,
+				"PlayerId": o.PlayerId,
+				"Win":      o.Win})
+		}
 	}
 }

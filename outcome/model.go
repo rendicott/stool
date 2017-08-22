@@ -5,6 +5,9 @@ import (
 )
 
 // todo: foreign keys
+// todo: include a int score
+// todo: include a status win/lose/tie
+
 type Outcome struct {
 	Id       int  `gorm:"primary_key;"`
 	GameId   int  `json:"gameid"`

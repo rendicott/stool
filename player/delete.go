@@ -4,21 +4,20 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gapi/util"
-
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func DeletePlayer(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	playerId, err := strconv.Atoi(vars["playerId"])
+func DeletePlayer(c *gin.Context) {
+	playerId, err := strconv.Atoi(c.Param("Id"))
 	if err != nil {
-		util.RespondWithError(w, http.StatusBadRequest, "Invalid ID")
-		return
-	}
-	p := Player{Id: playerId}
-	if err := p.DeletePlayer(); err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+	} else {
+		p := Player{Id: playerId}
+		err = p.DeletePlayer()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"Id": p.Id, "Name": p.Name})
+		}
 	}
 }

@@ -5,14 +5,12 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
 
 	"github.com/gapi/db"
 	"github.com/gapi/game"
 	"github.com/gapi/outcome"
 	"github.com/gapi/player"
-	"path/filepath"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -24,20 +22,10 @@ func main() {
 	db.AutoMigrate(player.Player{})
 	db.AutoMigrate(game.Game{})
 	db.AutoMigrate(outcome.Outcome{})
-	r := NewRouter()
 
-	abspath, err := filepath.Abs("./frontend")
+	router := gin.Default()
+	router.Use(gin.Recovery())
+	Routes(router)
 
-	if err != nil {
-		fmt.Print(err)
-	}
-
-	fs := http.Dir(abspath)
-
-	r.PathPrefix("/").Handler(http.FileServer(fs))
-
-
-	log.Fatal(http.ListenAndServe(":8080", r))
+	router.Run(":8080")
 }
-
-
