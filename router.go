@@ -8,21 +8,21 @@ import (
 )
 
 func Routes(router *gin.Engine) {
-	playerRouter := router.Group("/player")
+	playerRouter := router.Group("/players")
 	{
 		playerRouter.POST("/", player.CreatePlayer)
 		playerRouter.GET("/", player.PlayerIndex)
 		playerRouter.GET("/:Id", player.ShowPlayer)
 		playerRouter.DELETE("/:Id", player.DeletePlayer)
 	}
-	gameRouter := router.Group("/game")
+	gameRouter := router.Group("/games")
 	{
 		gameRouter.POST("/", game.CreateGame)
 		gameRouter.GET("/", game.GameIndex)
 		gameRouter.GET("/:Id", game.ShowGame)
 		gameRouter.DELETE("/:Id", game.DeleteGame)
 	}
-	outcomeRouter := router.Group("/outcome")
+	outcomeRouter := router.Group("/outcomes")
 	{
 		outcomeRouter.POST("/", outcome.CreateOutcome)
 		outcomeRouter.GET("/", outcome.OutcomeIndex)
