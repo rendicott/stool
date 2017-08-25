@@ -5,9 +5,11 @@ import (
 	"github.com/gapi/outcome"
 	"github.com/gapi/player"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Routes(router *gin.Engine) {
+	router.StaticFS("/frontend", http.Dir("./frontend"))
 	playerRouter := router.Group("/players")
 	{
 		playerRouter.POST("/", player.CreatePlayer)
