@@ -12,7 +12,9 @@ type Outcome struct {
 	Id       int  `gorm:"primary_key;"`
 	GameId   int  `json:"gameid"`
 	PlayerId int  `json:"playerid"`
-	Win      bool `json:"win"`
+	Result 	 string `json:"result"` // win, loss, tie
+	Date 	 string `json:"date"`	// 2017-08-24 ?
+	Score 	 int	`json:"score"`
 }
 
 func GetOutcomes() ([]Outcome, error) {

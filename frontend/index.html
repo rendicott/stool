@@ -9,7 +9,6 @@
 <body ng-controller="SampleController">
     <input type="hidden" ng-init="loadData()"/>
     ~ welcome to the GAPI ~
-    <br/> is angular working? {{angularTest}}
     <br/><br/>
 
     <div>
@@ -49,9 +48,12 @@
         <h4>Create a new outcome:</h4>
         Game ID: <input type="number" ng-model="newOutcomeGameId"/><br/>
         Player ID: <input type="number" ng-model="newOutcomePlayerId"/><br/>
-        <input type="radio" name="Win" ng-model="newOutcomeWin" value="true">Win
-        <input type="radio" name="Loss" ng-model="newOutcomeWin" value="false">Loss <br/>
-        <input type="button" value="create" ng-click="createOutcome(newOutcomeGameId, newOutcomePlayerId, newOutcomeWin)"/><br/><br/>
+        <input type="radio" name="Win" ng-model="newOutcomeResult" value="win">Win
+        <input type="radio" name="Loss" ng-model="newOutcomeResult" value="loss">Loss
+        <input type="radio" name="Tie" ng-model="newOutcomeResult" value="tie">Tie <br/>
+        Score: <input type="number" ng-model="newOutcomeScore"/><br/>
+        Date: <input type="text" ng-model="newOutcomeDate" placeholder="2017-08-24"/><br/>
+        <input type="button" value="create" ng-click="createOutcome(newOutcomeGameId, newOutcomePlayerId, newOutcomeResult, newOutcomeScore, newOutcomeDate)"/><br/><br/>
     </div>
 </body>
 </html>
