@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gapi/butt"
 	"github.com/gapi/game"
 	"github.com/gapi/outcome"
@@ -9,7 +11,7 @@ import (
 )
 
 func Routes(router *gin.Engine) {
-
+	router.StaticFS("/frontend", http.Dir("./frontend"))
 	playerRouter := router.Group("/players")
 	{
 		playerRouter.POST("/", player.CreatePlayer)

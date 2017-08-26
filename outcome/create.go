@@ -16,7 +16,9 @@ func CreateOutcome(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"Id": o.Id,
 				"GameId":   o.GameId,
 				"PlayerId": o.PlayerId,
-				"Win":      o.Win})
+				"Result":   o.Result,
+				"Score":	o.Score,
+				"Date":		o.Date})
 		}
 	} else {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"status": "unprocessable"})

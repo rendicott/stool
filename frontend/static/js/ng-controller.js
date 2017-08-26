@@ -1,9 +1,6 @@
 angular.module('gapi', [])
     .controller('SampleController', function($scope, $http) {
 
-
-        $scope.angularTest = "yes";
-
         $scope.loadData = function() {
             console.log("Loading data...")
             $scope.getGames();
@@ -19,7 +16,8 @@ angular.module('gapi', [])
                     function successCallback(response) {
                         console.log(response.data);
                         console.log("adding game data to scope");
-                        $scope.allGames = response.data;
+                        console.log(response.data.data)
+                        $scope.allGames = response.data.data;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get game data...");
@@ -35,7 +33,7 @@ angular.module('gapi', [])
                     function successCallback(response) {
                         console.log(response.data);
                         console.log("adding player data to scope");
-                        $scope.allPlayers = response.data;
+                        $scope.allPlayers = response.data.data;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get player data...");
@@ -51,7 +49,7 @@ angular.module('gapi', [])
                     function successCallback(response) {
                         console.log(response.data);
                         console.log("adding outcome data to scope");
-                        $scope.allOutcomes = response.data;
+                        $scope.allOutcomes = response.data.data;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get outcome data...");
@@ -95,16 +93,11 @@ angular.module('gapi', [])
 
         };
 
-        $scope.createOutcome = function(gameId, playerId, win) {
+        $scope.createOutcome = function(gameId, playerId, result, score, date) {
             console.log("In createOutcome function");
 
-            if (win === "true") {
-                var winBool = true;
-            } else {
-                var winBool = false;
-            }
 
-            $http.post("/outcomes", {"gameid": gameId, "playerid": playerId, "win": winBool})
+            $http.post("/outcomes", {"gameid": gameId, "playerid": playerId, "result": result, "score": score, "date": date})
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
