@@ -21,3 +21,6 @@
 
 # go binary 
 gapi
+
+#ginkgo coverage output
+*.coverprofile

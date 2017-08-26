@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gapi/butt"
 	"github.com/gapi/game"
 	"github.com/gapi/outcome"
 	"github.com/gapi/player"
@@ -8,6 +9,7 @@ import (
 )
 
 func Routes(router *gin.Engine) {
+
 	playerRouter := router.Group("/players")
 	{
 		playerRouter.POST("/", player.CreatePlayer)
@@ -29,5 +31,19 @@ func Routes(router *gin.Engine) {
 		outcomeRouter.GET("/:Id", outcome.ShowOutcome)
 		outcomeRouter.DELETE("/:Id", outcome.DeleteOutcome)
 	}
+	buttRouter := router.Group("/butts")
+	{
+		buttRouter.GET("/", butt.RetrieveAllButts)
+		buttRouter.GET("/:Id", butt.RetrieveSingleButt)
+	}
+	router.Use(ButtDataContextMW())
 
+}
+
+func ButtDataContextMW() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		buttDl := &butt.ButtDLGorm{}
+		c.Set("Db", buttDl)
+		c.Next()
+	}
 }
