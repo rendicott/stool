@@ -7,26 +7,28 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PlayerIndex(c *gin.Context) {
-	players, err := GetPlayers()
+func RetrieveAllPlayers(c *gin.Context) {
+	dataContext := c.MustGet("Db").(PlayerDLInterface)
+	player, err := dataContext.RetrieveAllPlayers()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError})
 	} else {
-		c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": players})
+		c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": player})
 	}
 }
 
-func ShowPlayer(c *gin.Context) {
-	playerId, err := strconv.Atoi(c.Param("Id"))
+func RetrieveSinglePlayer(c *gin.Context) {
+	dataContext := c.MustGet("Db").(PlayerDLInterface)
+	gameId, err := strconv.Atoi(c.Param("Id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
 	} else {
-		p := Player{Id: playerId}
-		p, err := p.GetPlayer()
+		game := Player{Id: gameId}
+		g, err := dataContext.RetrieveSinglePlayer(game.Id)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+			c.JSON(http.StatusNotFound, gin.H{"status": "notfound"})
 		} else {
-			c.JSON(http.StatusOK, gin.H{"Id": p.Id, "Name": p.Name})
+			c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": g})
 		}
 	}
 }

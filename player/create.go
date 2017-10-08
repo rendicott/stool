@@ -7,14 +7,14 @@ import (
 )
 
 func CreatePlayer(c *gin.Context) {
-	var p Player
-	if c.BindJSON(&p) == nil {
-		if err := p.CreatePlayer(); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
-		} else {
-			c.JSON(http.StatusOK, gin.H{"Id": p.Id, "Name": p.Name})
-		}
-	} else {
+	dataContext := c.MustGet("Db").(PlayerDLInterface)
+	playerName := c.Param("Name")
+	if playerName != "" {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"status": "unprocessable"})
+	}
+	if player, err := dataContext.CreatePlayer(playerName); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"Id": player.Id, "Name": player.Name})
 	}
 }

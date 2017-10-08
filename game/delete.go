@@ -8,16 +8,17 @@ import (
 )
 
 func DeleteGame(c *gin.Context) {
+	dataContext := c.MustGet("Db").(GameDLInterface)
 	gameId, err := strconv.Atoi(c.Param("Id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
 	} else {
-		g := Game{Id: gameId}
-		err = g.DeleteGame()
+		err := dataContext.DeleteGame(gameId)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+			c.JSON(http.StatusNotFound, gin.H{"status": "notfound"})
 		} else {
-			c.JSON(http.StatusOK, gin.H{"Id": g.Id, "Name": g.Name})
+			c.JSON(http.StatusOK, gin.H{"status": "successful"})
 		}
 	}
+
 }

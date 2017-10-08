@@ -1,4 +1,4 @@
-package butt_test
+package player_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestButt(t *testing.T) {
+func TestPlayer(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Butt Suite")
+	RunSpecs(t, "Player Suite")
 }

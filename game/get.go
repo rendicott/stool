@@ -7,8 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GameIndex(c *gin.Context) {
-	games, err := GetGames()
+func RetrieveAllGames(c *gin.Context) {
+	dataContext := c.MustGet("Db").(GameDLInterface)
+	games, err := dataContext.RetrieveAllGames()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError})
 	} else {
@@ -16,17 +17,18 @@ func GameIndex(c *gin.Context) {
 	}
 }
 
-func ShowGame(c *gin.Context) {
+func RetrieveSingleGame(c *gin.Context) {
+	dataContext := c.MustGet("Db").(GameDLInterface)
 	gameId, err := strconv.Atoi(c.Param("Id"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
 	} else {
-		g := Game{Id: gameId}
-		g, err = g.GetGame()
+		game := Game{Id: gameId}
+		g, err := dataContext.RetrieveSingleGame(game.Id)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"status": "internalservererror"})
+			c.JSON(http.StatusNotFound, gin.H{"status": "notfound"})
 		} else {
-			c.JSON(http.StatusOK, gin.H{"Id": g.Id, "Name": g.Name})
+			c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": g})
 		}
 	}
 }

@@ -11,26 +11,28 @@ type Game struct {
 	Name string `json:"name"`
 }
 
-func (g *Game) CreateGame() error {
-	data, err := db.NewDB()
-	if err != nil {
-		return err
-	}
-	data.Create(&g)
-	return nil
+type GameDLInterface interface {
+	RetrieveAllGames() ([]Game, error)
+	RetrieveSingleGame(int) (Game, error)
+	CreateGame(string) (Game, error)
+	DeleteGame(int) error
 }
 
-func (g *Game) DeleteGame() error {
-	data, err := db.NewDB()
-	if err != nil {
-		return err
-	}
-	data.Delete(&g)
-	return nil
+type GameDLGorm struct {
 }
 
-// todo: one of these things is not like the other
-func GetGames() ([]Game, error) {
+func (g *GameDLGorm) RetrieveSingleGame(gameId int) (Game, error) {
+	var game Game
+	data, err := db.NewDB()
+	if err != nil {
+		return game, err
+	}
+	data.Find(&game, gameId)
+
+	return game, nil
+}
+
+func (g *GameDLGorm) RetrieveAllGames() ([]Game, error) {
 	data, err := db.NewDB()
 	if err != nil {
 		return nil, err
@@ -40,13 +42,23 @@ func GetGames() ([]Game, error) {
 	return games, nil
 }
 
-func (g *Game) GetGame() (Game, error) {
+func (g *GameDLGorm) CreateGame(gameName string) (Game, error) {
 	var game Game
 	data, err := db.NewDB()
 	if err != nil {
 		return game, err
 	}
-	data.Find(&game, g.Id)
+	game = Game{Name: gameName}
+	data.Create(&game)
+	return game, err
+}
 
-	return game, nil
+func (g *GameDLGorm) DeleteGame(gameId int) error {
+	data, err := db.NewDB()
+	game := Game{Id: gameId}
+	if err != nil {
+		return err
+	}
+	data.Delete(&game)
+	return err
 }
