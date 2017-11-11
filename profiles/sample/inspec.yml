@@ -1,0 +1,8 @@
+name: sample
+title: sample profile for testing 
+maintainer: chris evett
+copyright: chris evett 
+copyright_email: chris.evett@gmail.com
+license: MIT
+summary: sample compliance profile
+version: 0.1.0

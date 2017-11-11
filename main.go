@@ -1,31 +1,28 @@
 package main
 
-//to add: curl -H "Content-Type: application/json" -d '{"name": "Camel Up"}' http://localhost:8080/games
-//to delete: curl -X "DELETE" http://localhost:8080/players/4
-
 import (
 	"fmt"
+	"os/exec"
 
-	"github.com/gapi/db"
-	"github.com/gapi/game"
-	"github.com/gapi/outcome"
-	"github.com/gapi/player"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	db, err := db.NewDB()
+	err := verifyEnvironment()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Error invoking inspec. Please install the latest version of inspec from https://downloads.chef.io/inspec")
+		return
 	}
-	db.AutoMigrate(player.Player{})
-	db.AutoMigrate(game.Game{})
-	db.AutoMigrate(outcome.Outcome{})
-
 	router := gin.Default()
 	router.Use(gin.Recovery())
 	Routes(router)
 
 	router.Run(":8080")
+}
+
+func verifyEnvironment() error {
+	cmd := exec.Command("inspec", "version")
+	err := cmd.Run()
+	return err
 }
