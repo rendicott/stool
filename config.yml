@@ -1,0 +1,2 @@
+verifier: inspec
+testpath: ./testprofiles/sample

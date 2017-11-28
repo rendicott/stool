@@ -7,11 +7,21 @@ import (
 )
 
 func RunAllTests(c *gin.Context) {
-	provider := c.MustGet("runner").(TestRunner)
-	result, err := provider.RunAllTests()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError})
+	runner, runnerExists := c.Get("runner")
+	path, pathExists := c.Get("path")
+	if runnerExists == false {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError, "data": "runner does not exist"})
+	} else if pathExists == false {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError, "data": "path does not exist"})
 	} else {
-		c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": result})
+		// need to use type casting here so go can handle the interface properly
+		r := runner.(TestRunner)
+		p := path.(string)
+		result, err := r.RunAllTests(p)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError, "data": "error returned from RunAllTests " + err.Error()})
+		} else {
+			c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": result})
+		}
 	}
 }

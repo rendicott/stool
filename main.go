@@ -2,27 +2,33 @@ package main
 
 import (
 	"fmt"
-	"os/exec"
 
+	"github.com/chrisevett/stool/harness"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-
-	err := verifyEnvironment()
+	reader := FileConfigReader{}
+	config, err := LoadConfig("./config.yml", reader)
 	if err != nil {
-		fmt.Println("Error invoking inspec. Please install the latest version of inspec from https://downloads.chef.io/inspec")
-		return
+		fmt.Println("Error calling LoadConfig")
+		fmt.Println(err)
 	}
+
 	router := gin.Default()
 	router.Use(gin.Recovery())
+	if config.Verifier == "inspec" {
+		router.Use(InspecMiddleware(config))
+	}
 	Routes(router)
-
 	router.Run(":8080")
 }
 
-func verifyEnvironment() error {
-	cmd := exec.Command("inspec", "version")
-	err := cmd.Run()
-	return err
+func InspecMiddleware(config Config) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		run := &harness.InspecRunner{}
+		c.Set("runner", run)
+		c.Set("path", config.TestPath)
+		c.Next()
+	}
 }
