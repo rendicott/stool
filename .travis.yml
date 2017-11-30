@@ -1,8 +1,6 @@
 language: go
 go:
-- 1.8
-- 1.9
-- master
+- 1.8 
 
 install:
     - go get -v github.com/onsi/ginkgo/ginkgo
@@ -11,6 +9,7 @@ install:
     - export PATH=$PATH:$HOME/gopath/bin
     - go build -v ./...
     - go install github.com/chrisevett/stool
+    - git tag "$MAJORVERSION.$MINORVERSION.$PATCHVERSION.$TRAVIS_BUILD_NUMBER"
 
 script: ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace --race --compilers=2
 
@@ -22,3 +21,5 @@ deploy:
   file: $HOME/gopath/bin/stool 
   on:
     repo: chrisevett/stool
+    branch: master 
+    tags: true 
