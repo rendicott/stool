@@ -7,7 +7,7 @@ go:
 install:
 - go get github.com/onsi/gomega
 - go get github.com/onsi/ginkgo
-- export PATH=$PATH:$HOME/gopath/bin
+- go install github.com/onsi/ginkgo
 script: ginkgo -r --randomizeAllSpecs --trace
 deploy:
   provider: releases
