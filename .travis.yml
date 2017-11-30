@@ -8,7 +8,8 @@ install:
 - go get github.com/onsi/gomega
 - go get github.com/onsi/ginkgo
 - go install github.com/onsi/ginkgo
-script: ginkgo -r --randomizeAllSpecs --trace
+- which go
+script: $GOPATH/bin/ginkgo -r --randomizeAllSpecs --trace
 deploy:
   provider: releases
   api_key:
