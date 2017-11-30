@@ -9,6 +9,7 @@ install:
     - go get -v github.com/onsi/gomega
     - go get -v -t ./...
     - export PATH=$PATH:$HOME/gopath/bin
+    - go build -v ./...
 
 script: ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace --race --compilers=2
 
