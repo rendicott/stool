@@ -13,6 +13,7 @@ install:
 script: ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace --race --compilers=2
 
 deploy:
+  skip_cleanup: true
   provider: releases
   api_key:
     secure: icYZbCdpbPbXEYqN2CB4mHGccNrLRxyzE9p3ynOt0EBLxvDh5C8ZIqPgS+cBoKx/BAFo7My92Et9pbhwUr8ceKMt/7KJFkeMRHEWAijC+HZ1SC28WNW7r45e7IMnn++idja18rGP/hHO29HpyjEjkiKIsSBomMvthwjLq0kf4yaXhTdn79jiMCN2X75UufqDaet5eVdJ4YAZnSNq/F2XtMjFvkc7WPWCuzva7pXanT5xKNwMhV8XRJYi9xbOGUTZz5kdhNE2ASEOsoNj8emeSTY6N//+HSxCf8vW6QDg3PACyIh3Z8ohxGhvnTP5OTG8nh3sAp2OMvIjlnGRi9SWic0F/N9JsLDiUct9TcmLrZJcefoLmN7ymtvv3qogogqs5rBBhVppKSf5HOWu2F1V0MvRvH5F3zkP/JBx/K7kvuBQtnEVTX8aqRIuHJljoKnJuAoyhWP7OHuKnV1wSX2rsMdpl5iMXCNSborp4lCcDh2EpJG73Vnq0a08VxT1n53g+0oOE7wrMKmrOwaY5sGy5y6bRDtJILFSA/EeSZxwr6OareKLr0YNpF1Kp7TU6GLOucVAOTOP0qWCF8FFyirLrY4FJhMMJ3m6VQgbV30gY5pwQ+TEhfI+EZp+TSzrkKoviitOo76chFMeXob4GlcCLqWebPt/mCcggP7e1rVtSF8=
