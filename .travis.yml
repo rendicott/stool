@@ -9,6 +9,8 @@ install:
 - go get github.com/onsi/ginkgo
 - go install github.com/onsi/ginkgo
 - which go
+- ls /home/travis/gopath/bin/
+- ls $GOPATH/bin/
 script: $GOPATH/bin/ginkgo -r --randomizeAllSpecs --trace
 deploy:
   provider: releases
