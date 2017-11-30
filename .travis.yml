@@ -11,7 +11,7 @@ install:
 - which go
 - ls /home/travis/gopath/bin/
 - ls $GOPATH/bin/
-script: $GOPATH/bin/ginkgo -r --randomizeAllSpecs --trace
+script: $HOME/gopath/bin/ginkgo -r
 deploy:
   provider: releases
   api_key:
