@@ -120,6 +120,18 @@ tstpath: /tmp/profile`
 			Expect(actual).To(Equal("buttles"))
 			Expect(err).ToNot(HaveOccurred())
 		})
+		It("returns the contents of the config path if a different argument is passed", func() {
+			// i wrote this because i did something very silly
+			ResetFlagsForTesting()
+			// dont want to overwrite a global var for the entire test suite
+			oldArgs := os.Args
+			defer func() { os.Args = oldArgs }()
+
+			os.Args = []string{"./stool", "-config=trucks"}
+			actual, err := ParseConfigPath()
+			Expect(actual).To(Equal("trucks"))
+			Expect(err).ToNot(HaveOccurred())
+		})
 		It("returns an error if the config argument is not passed", func() {
 			ResetFlagsForTesting()
 			// dont want to overwrite a global var for the entire test suite

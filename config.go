@@ -79,6 +79,6 @@ func ParseConfigPath() (string, error) {
 	if *configpath == "REQUIRED" {
 		return "ERROR", errors.New("error: --config is a required argument.")
 	}
-	return "buttles", nil
+	return *configpath, nil
 
 }
