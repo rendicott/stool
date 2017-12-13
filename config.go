@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -39,7 +40,6 @@ func FileExists(path string) error {
 }
 
 func LoadConfig(path string, cfReader ConfigReader) (Config, error) {
-	// read the file
 	if err := FileExists(path); err != nil {
 		fmt.Println("error in LoadConfig : could not find file" + path)
 		return Config{}, err
@@ -54,7 +54,6 @@ func LoadConfig(path string, cfReader ConfigReader) (Config, error) {
 		fmt.Println("error parsing config file ")
 		return Config{}, err
 	}
-	// parse the contents
 	return config, err
 }
 
@@ -70,5 +69,16 @@ func ParseConfigFile(payload []byte) (Config, error) {
 	}
 
 	return config, err
+
+}
+
+func ParseConfigPath() (string, error) {
+	configpath := flag.String("config", "REQUIRED", "Config file path")
+	flag.Parse()
+
+	if *configpath == "REQUIRED" {
+		return "ERROR", errors.New("error: --config is a required argument.")
+	}
+	return "buttles", nil
 
 }

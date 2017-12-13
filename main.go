@@ -8,13 +8,18 @@ import (
 )
 
 func main() {
+	configPath, err := ParseConfigPath()
+	if err != nil {
+		fmt.Println("Error parsing cli arguments")
+		return
+	}
 	reader := FileConfigReader{}
-	config, err := LoadConfig("./config.yml", reader)
+	config, err := LoadConfig(configPath, reader)
 	if err != nil {
 		fmt.Println("Error calling LoadConfig")
 		fmt.Println(err)
+		return
 	}
-
 	router := gin.Default()
 	router.Use(gin.Recovery())
 	if config.Verifier == "inspec" {

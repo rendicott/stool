@@ -9,7 +9,6 @@ install:
     - export PATH=$PATH:$HOME/gopath/bin
     - go build -v ./...
     - go install github.com/chrisevett/stool
-    - git tag "$MAJORVERSION.$MINORVERSION.$PATCHVERSION.$TRAVIS_BUILD_NUMBER"
 
 script: ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace --race --compilers=2
 

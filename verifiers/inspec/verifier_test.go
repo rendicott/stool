@@ -136,27 +136,12 @@ var _ = Describe("ExecInspecTests", func() {
 	})
 })
 
-//var _ = XDescribe("Inspec verifier", func() {
-//	Context("when I call verify", func()) {
-//		Context("When default config is used", func() {
-//			It("blows up if no tests exist in a default profile" func() {
-//
-//			})
-//			It("runs inspec check on every profile in ./profiles ", func() {
-//				res, err := Verify()
-//			})
-//			It("returns an error if a test fails", func() {
-//				res, err := Verify()
-//			})
-//			It("returns the test output in json format on pass or failure", func() {
-//				res, err := Verify()
-//			})
-//
-//		})
-//		Context("When we pass a profile path", func() {
-//			It("runs specified tests", func() {
-//				res, err := Verify()
-//			})
-//	})
-//
-//})
+var _ = XDescribe("really exec inspec ", func() {
+	Context("running exec", func() {
+		It("returns a string", func() {
+			execCommand = exec.Command
+			result, _ := ExecInspecTests("../../testprofiles/sample2/")
+			Expect(result).ShouldNot(BeEmpty())
+		})
+	})
+})

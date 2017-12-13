@@ -36,8 +36,7 @@ func VerifyInspecProfilePath(path string) error {
 	return err
 }
 
-// lets forget about checking the pass or fail state at this point
-
+// look at this for formatting https://play.golang.org/p/QUyL3cyTAC
 func ExecInspecTests(path string) (string, error) {
 	cmd := execCommand("inspec", "exec", path, "--format=json")
 	var outb, errb bytes.Buffer
