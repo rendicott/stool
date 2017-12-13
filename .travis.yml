@@ -10,7 +10,7 @@ install:
     - go build -v ./...
     - go install github.com/chrisevett/stool
 
-script: ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace --race --compilers=2
+script: ginkgo -r --randomizeAllSpecs --randomizeSuites --cover --trace --race --compilers=2
 
 deploy:
   skip_cleanup: true
