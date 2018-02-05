@@ -16,7 +16,6 @@ type ValidReader struct {
 func (v ValidReader) Read(path string) ([]byte, error) {
 	filetobytes := `verifier: inspec
 testpath: /tmp/profile`
-
 	return []byte(filetobytes), nil
 }
 
@@ -111,7 +110,6 @@ tstpath: /tmp/profile`
 	Context("when I parse the config path from the command line arguments", func() {
 		It("returns the contents of the config path if the argument is passed", func() {
 			ResetFlagsForTesting()
-			// dont want to overwrite a global var for the entire test suite
 			oldArgs := os.Args
 			defer func() { os.Args = oldArgs }()
 
@@ -134,11 +132,9 @@ tstpath: /tmp/profile`
 		})
 		It("returns an error if the config argument is not passed", func() {
 			ResetFlagsForTesting()
-			// dont want to overwrite a global var for the entire test suite
 			oldArgs := os.Args
 			defer func() { os.Args = oldArgs }()
 
-			// the first arg is the process name so this is testing no arguments passed
 			os.Args = []string{"processnamenotanarg"}
 			actual, err := ParseConfigPath()
 			Expect(actual).To(Equal("ERROR"))

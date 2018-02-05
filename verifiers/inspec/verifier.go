@@ -3,7 +3,10 @@ package inspec
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"os/exec"
+
+	"github.com/chrisevett/stool/verifiers"
 )
 
 // todo implement setup and check
@@ -23,9 +26,22 @@ func (i *InspecVerifier) Setup(path string) error {
 	return err
 }
 
-func (i *InspecVerifier) Check(path string) (string, error) {
-	result, err := ExecInspecTests(path)
-	return result, err
+func (i *InspecVerifier) Check(path string) (verifiers.TestSuite, error) {
+	///func (i *InspecVerifier) Check(path string) (verifiers.TestSuite, error) {
+	r, err := ExecInspecTests(path)
+	if err != nil {
+		fmt.Println("error running tests")
+		return verifiers.TestSuite{}, err
+	}
+
+	err, suite := OutputToSuite(r)
+	if err != nil {
+		fmt.Println("error converting output")
+		return verifiers.TestSuite{}, err
+	}
+	// need to call the tranform bit here
+	// may not need a seperate file tho
+	return suite, err
 }
 
 var execCommand = exec.Command
@@ -37,14 +53,15 @@ func VerifyInspecProfilePath(path string) error {
 }
 
 // look at this for formatting https://play.golang.org/p/QUyL3cyTAC
-func ExecInspecTests(path string) (string, error) {
+// want to output a reader here so we can create a json payload more easily here
+func ExecInspecTests(path string) (io.Reader, error) {
 	cmd := execCommand("inspec", "exec", path, "--format=json")
 	var outb, errb bytes.Buffer
 	cmd.Stdout = &outb
 	cmd.Stderr = &errb
 	err := cmd.Run()
 	fmt.Println("stdout", outb.String(), "stderr", errb.String())
-	return outb.String(), err
+	return &outb, err
 
 }
 

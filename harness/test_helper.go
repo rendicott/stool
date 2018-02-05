@@ -1,6 +1,9 @@
 package harness
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/chrisevett/stool/verifiers"
+	"github.com/gin-gonic/gin"
+)
 
 type FakeRunner struct {
 }
@@ -28,7 +31,11 @@ func FakeMiddlewarePathNotDefined() gin.HandlerFunc {
 		c.Next()
 	}
 }
-func (i *FakeRunner) RunAllTests(path string) (string, error) {
-	res := "my path is " + path
-	return res, nil
+func (i *FakeRunner) RunAllTests(path string) (verifiers.TestSuite, error) {
+	t := verifiers.TestSuite{}
+	t.Name = "fakesuite"
+	t.Platform = "fakeplatform"
+	t.Tests = []verifiers.TestCase{{Name: "test1", Message: "given when then", Result: true}}
+
+	return t, nil
 }
