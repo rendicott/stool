@@ -68,3 +68,22 @@ var _ = Describe("Given InspecOutputToTestSuite is called", func() {
 		})
 	})
 })
+
+var _ = Describe("given OutputToSuite is called", func() {
+	Context("when we pass a populated reader", func() {
+		It("returns a testcase object", func() {
+			f, _ := os.Open("../out.json")
+			err, actual := OutputToSuite(f)
+			Expect(err).ToNot(HaveOccurred())
+			Expect(actual.Name).To(Equal("sample"))
+			Expect(actual.Platform).To(Equal("mac_os_x"))
+		})
+	})
+	Context("when we pass a reader with malformed data ", func() {
+		It("returns an error ", func() {
+			r := bytes.NewReader([]byte("buttles"))
+			err, _ := OutputToSuite(r)
+			Expect(err).To(HaveOccurred())
+		})
+	})
+})
