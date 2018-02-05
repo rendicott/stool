@@ -16,3 +16,4 @@
 *.coverprofile
 
 stool
+.kitchen/
