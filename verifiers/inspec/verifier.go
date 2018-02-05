@@ -28,7 +28,7 @@ func (i *InspecVerifier) Setup(path string) error {
 
 func (i *InspecVerifier) Check(path string) (verifiers.TestSuite, error) {
 	///func (i *InspecVerifier) Check(path string) (verifiers.TestSuite, error) {
-	r, err := ExecInspecTests(path)
+	r, inspecerr := ExecInspecTests(path)
 	// think we need to eat the error here, inspec returns 1 if a failure occurs and we want to ignore it
 	// if err != nil {
 	// 	fmt.Println("error running tests")
@@ -42,7 +42,7 @@ func (i *InspecVerifier) Check(path string) (verifiers.TestSuite, error) {
 	}
 	// need to call the tranform bit here
 	// may not need a seperate file tho
-	return suite, err
+	return suite, inspecerr
 }
 
 var execCommand = exec.Command

@@ -19,7 +19,7 @@ func RunAllTests(c *gin.Context) {
 		p := path.(string)
 		result, err := r.RunAllTests(p)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError, "data": result, "error": "error returned from RunAllTests " + err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{"status": http.StatusInternalServerError, "data": result})
 		} else {
 			c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": result})
 		}
