@@ -29,10 +29,11 @@ func (i *InspecVerifier) Setup(path string) error {
 func (i *InspecVerifier) Check(path string) (verifiers.TestSuite, error) {
 	///func (i *InspecVerifier) Check(path string) (verifiers.TestSuite, error) {
 	r, err := ExecInspecTests(path)
-	if err != nil {
-		fmt.Println("error running tests")
-		return verifiers.TestSuite{}, err
-	}
+	// think we need to eat the error here, inspec returns 1 if a failure occurs and we want to ignore it
+	// if err != nil {
+	// 	fmt.Println("error running tests")
+	// 	return verifiers.TestSuite{}, nil
+	// }
 
 	err, suite := OutputToSuite(r)
 	if err != nil {
