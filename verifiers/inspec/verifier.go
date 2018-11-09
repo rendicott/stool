@@ -56,7 +56,8 @@ func VerifyInspecProfilePath(path string) error {
 // look at this for formatting https://play.golang.org/p/QUyL3cyTAC
 // want to output a reader here so we can create a json payload more easily here
 func ExecInspecTests(path string) (io.Reader, error) {
-	cmd := execCommand("inspec", "exec", path, "--format=json")
+	// inspec 3.0.25 broke the --format=json flag in favor of --reporter=json
+	cmd := execCommand("inspec", "exec", path, "--reporter=json")
 	var outb, errb bytes.Buffer
 	cmd.Stdout = &outb
 	cmd.Stderr = &errb
